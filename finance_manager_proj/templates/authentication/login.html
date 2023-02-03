@@ -1,13 +1,95 @@
 {% extends 'base_auth.html' %}
 
+{% load static %}
+
 {% block content %}
 
-<div class="card">
+{% if successRegister %}
+
+<div class="row align-items-center h-25">        
+    <div class="col-md-3"></div>
+    <div class="col-md-6 card border-primary mb-3">
     <div class="card-body">
-        <h1>
-            Login
-        </h1>
+    <h4 class="card-title">You have succesfully registered.</h4>
+    <p class="card-text">Please login.</p>
+        </div>
     </div>
+    <div class="col-md-3"></div>
 </div>
 
+{% endif %}
+
+{% if successLogin %}
+
+<div class="row align-items-center h-25">        
+    <div class="col-md-3"></div>
+    <div class="col-md-6 card border-primary mb-3">
+    <div class="card-body">
+    <h4 class="card-title">You have succesfully logged in. Welcome!</h4>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+{% elif not successLogin and not justGetting and not successRegister %}
+
+<div class="row align-items-center h-25">        
+    <div class="col-md-3"></div>
+    <div class="col-md-6 card border-primary mb-3">
+    <div class="card-body">
+    <h4 class="card-title">We cannot recognize that username and/or password.</h4>
+    <p class="card-text">Please try to login again.</p>
+    </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+{% endif %}
+
+{% if not successLogin and not justGetting%}
+<div class="row align-items-center h-50">
+{% else %}
+<div class="row align-items-center h-100">
+{% endif %}
+
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="card border-dark">
+            <div class="card-header text-center">
+                <h3>Login</h3>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'authentication:login' %}" method="post"> 
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <input class="form-control form-control-md" type="text" name="email" placeholder="Enter your email" id="emailField">
+                    </div>
+                    <div id="emailFieldFeedback" style="display:none">
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-md mt-3" type="password"  name="password" placeholder="Enter a password" id="passwordField">
+                    </div>
+                    <div id="passwordFieldFeedback" style="display:none">
+                    </div>
+
+                    <small id="showPassword" class="float-end mt-2">
+                        SHOW PASSWORD
+                    </small>
+
+                    <div class="d-grid gap-2 mt-5">
+                        <input type="submit" value="Login" class="btn btn-lg btn-primary" id="loginButton"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+    
 {% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/login.js'%}"></script>
+{% endblock script %}
+
