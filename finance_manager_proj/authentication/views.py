@@ -39,7 +39,7 @@ class LoginView(View):
         return render(request, 'authentication/login.html', context={"justGetting": True})
     
     def post(self, request): 
-        email = request.POST.get('email')
+        email = request.POST.get('email').lower().strip()
         password = request.POST.get('password')
 
         if email and password: 

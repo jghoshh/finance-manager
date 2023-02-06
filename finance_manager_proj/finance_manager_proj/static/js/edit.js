@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function(){
     let dateField = document.querySelector("#dateField");
     let dateFieldFeedback = document.querySelector('#dateFieldFeedback');
     let categoryField = document.querySelector('#categoryField');
-    let addExpButton = document.querySelector('#addExpButton');
+    let addExpButton = document.querySelector('#editExpButton');
     let descriptionField = document.querySelector('#descriptionField');
     let descriptionFieldFeedback = document.querySelector('#descriptionFieldFeedback');
     let valid1 = false;
@@ -14,6 +14,18 @@ document.addEventListener('DOMContentLoaded', function(){
     let now = new Date();
     now.setHours(0,0,0,0);
     addExpButton.disabled = true;
+    
+    if (expField.value.length > 0){
+        valid1 = true;
+    }
+
+    if (dateField.value !== null){
+        valid2 = true;
+    }
+
+    if (descriptionField.value !== null){
+        valid4 = true;
+    }
 
     //username field validator.
     expField.addEventListener("keyup", function(letter){
@@ -66,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
    
     categoryField.addEventListener("change", function(){
-        console.log(categoryField.value);
         if (categoryField.value === null){
             valid3 = false;
         }
@@ -81,7 +92,12 @@ document.addEventListener('DOMContentLoaded', function(){
         else if (!(valid1 && valid2 && valid3 && valid4)){
             addExpButton.disabled = true;
         }
-    })
+
+        console.log(valid1)
+        console.log(valid2)
+        console.log(valid3)
+        console.log(valid4)
+    });
 
 
     descriptionField.addEventListener("keyup", function(letter){
