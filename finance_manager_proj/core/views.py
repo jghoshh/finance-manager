@@ -125,9 +125,3 @@ def deleteExp(request, expenseId):
             return HttpResponseRedirect(request.META.get['HTTP_REFERER'])
 
     return HttpResponseRedirect(reverse("core:index"))
-
-            
-        
-
-
-        
