@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+  <!-- confirm deletion modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="confirmDeletion" class="btn btn-primary">Confirm Deletion</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+    </div>
+  </div>
+
+    {% if successMessage %}
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>{{successMessage}}</strong>
+      </div>
+    {% endif %}
+
+    {% if errorMessage %}
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>{{errorMessage}}</strong>
+    </div>
+    {% endif %}
+
+    <div class="col-md-8">
+        <div class="card border-dark">
+            <div class="card-body">
+                <form action="{% url 'core:edit' expenseId %}" method="post"> 
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input class="form-control form-control-md" type="text" name="amount" placeholder="Enter the amount you spent." id="amtField" value={{expense.amount}}>
+                    </div>
+
+                    <div id="amtFieldFeedback" style="display:none">
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-md mt-3" type="text" name="description" placeholder="Add a description to your expense (Optional)." id="descriptionField" value="{{expenseDescription}}">
+                    </div>
+                    <div id="descriptionFieldFeedback" style="display:none">
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-md mt-3" type="date" name="date" placeholder="Add a date for your expense." id="dateField" value={{expenseDate}}>
+                    </div>
+
+                    <div id="dateFieldFeedback" style="display:none">
+                    </div>
+                    
+                    <div class="form-group">
+                        <select name="category" id="categoryField" style="width: 100%;height: ;padding: .375rem .75rem;margin-top: 1rem;margin-bottom: 1rem;" >
+                            <option value="" disabled selected>Please choose a category for your expense.</option>
+                            {% for c in categories %}
+                            <option name="category" value="{{c}}">{{c}}</option>
+                            {% endfor %}
+                    </div>
+
+                    <span>
+                    <input type="submit" value="Edit Expense" class="btn btn-lg btn-primary" id="addExpButton" style="width: 50%;">
+                    </span>
+                    <span id="deleteButtonContainer" style="margin-left: 1rem;">
+                    <a id="deleteButton" href="" class="btn btn-lg btn-danger">Delete Expense</a>
+                    </span>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/exp.js'%}?v=1"></script>
+{% endblock script %}

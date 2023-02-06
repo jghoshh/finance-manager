@@ -1,4 +1,34 @@
 {% extends 'base.html' %}
-{% block body %}
-<h1> Index List </h1>
-{% endblock body %}
+{% block content %}
+
+<table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Number</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Description</th>
+        <th scope="col">Date</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if expenses.count %}
+    {% for expense in expenses %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{expense.amount}}</td>
+        <td>{{expense.typeOfExpense}}</td>
+        {% if expense.description %}
+        <td>{{expense.description}}</td>
+        {% else %}
+        <td>No Description</td>
+        {% endif %}
+        <td>{{expense.date}}</td>
+        <td><a href="{% url 'core:edit' expense.id %}" class="btn btn-sm btn-outline-info" id="registerButton">Edit Expense</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+{% endblock content %}

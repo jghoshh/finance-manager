@@ -2,8 +2,7 @@ import json
 import re
 from django.http import JsonResponse, HttpResponseNotAllowed, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
+from django.views import View 
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.urls import reverse

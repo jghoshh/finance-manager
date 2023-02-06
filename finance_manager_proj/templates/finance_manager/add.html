@@ -1,4 +1,74 @@
 {% extends 'base.html' %}
-{% block body %}
-<h1> Add List </h1>
-{% endblock body %}
+
+{% load static %}
+
+{% block content %}
+
+    {% if successMessage %}
+    <!-- success mssage on the creation of an expense -->
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>{{successMessage}}</strong>
+      </div>
+    {% endif %}
+
+    {% if errorMessage %}
+    <!-- error mssage on the creation of an expense -->
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>{{errorMessage}}</strong>
+    </div>
+    {% endif %}
+
+    <div class="col-md-8">
+        <div class="card border-dark">
+            <div class="card-body">
+                <form action="{% url 'core:add' %}" method="post"> 
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input autocomplete="off" class="form-control form-control-md" type="text" name="amount" placeholder="Enter the amount you spent." id="amtField">
+                    </div>
+                    <div id="amtFieldFeedback" style="display:none">
+                    </div>
+
+                    <div class="form-group">
+                        <input autocomplete="off" class="form-control form-control-md mt-3" type="text" name="description" placeholder="Add a description to your expense (Optional)." id="descriptionField">
+                    </div>
+                    <div id="descriptionFieldFeedback" style="display:none">
+                    </div>
+
+                    <div class="form-group">
+                        <input autocomplete="off" class="form-control form-control-md mt-3" type="text" name="date" onfocus="(this.type='date')" placeholder="Add a date for your expense." id="dateField">
+                    </div>
+
+                    <div id="dateFieldFeedback" style="display:none">
+                    </div>
+                    
+                    <div class="form-group">
+                        <select name="category" id="categoryField" style="width: 100%;height: ;padding: .375rem .75rem;margin-top: 1rem;margin-bottom: 1rem;" >
+                            <option value="" disabled selected>Please choose a category for your expense.</option>
+                            {% for c in categories %}
+                            <option name="category" value="{{c}}">{{c}}</option>
+                            {% endfor %}
+                    </div>
+
+                    <div class="d-grid gap-2 mt-5">
+                        <input type="submit" value="Add Expense" class="btn btn-lg btn-primary" id="addExpButton" style="width: 100%;">
+                      </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script type="text/javascript">
+    document.querySelector("#modalActivator").addEventListener("click",function(){
+        $('#exampleModal').modal('show')
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="{% static 'js/exp.js'%}?v=1"></script>
+{% endblock script %}

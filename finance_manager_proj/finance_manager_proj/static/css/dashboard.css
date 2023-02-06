@@ -24,11 +24,11 @@ body {
     padding: 72px 0 0; /* Height of navbar */
   }
 
-  
   @media (max-width: 767.98px) {
     .sidebar {
       top: 5rem;
     }
+
   }
   
   .sidebar-sticky {
