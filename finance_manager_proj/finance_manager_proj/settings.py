@@ -1,6 +1,7 @@
 from pathlib import Path
 import environ
 import os
+import secrets
 
 # Using django-environ module to setup environment variables.
 env = environ.Env()
@@ -14,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = secrets.token_urlsafe(16)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
