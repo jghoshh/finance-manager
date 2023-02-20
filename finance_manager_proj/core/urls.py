@@ -9,4 +9,8 @@ urlpatterns = [
     path('edit-exp/<int:expenseId>', views.EditExp.as_view(), name='edit'),
     path('edit-exp/', views.redirectToHome, name='redirectToHomeFromEdit'),
     path('delete-exp/<int:expenseId>', views.deleteExp, name='delete'),
+    # right now anyone can access this endpoint, but in the future, we would want only devs or 
+    # those authorized to access this endpoint. We could use token auth for that.
+    path('dev-expense-summary/<str:date>', views.getExpenseSummary, name='getExpenseSummary'),
+    path('expense-summary/<str:date>', views.expenseSummary, name='expenseSummary')
 ]

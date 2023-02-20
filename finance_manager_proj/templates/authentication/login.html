@@ -73,6 +73,8 @@
                     </div>
                     <div id="passwordFieldFeedback" style="display:none">
                     </div>
+                    
+                    <a id="noAccount" href="{% url 'authentication:register' %}" class="float-start mt-2">No account? Register Now</a>
 
                     <small id="showPassword" class="float-end mt-2">
                         SHOW PASSWORD
@@ -80,7 +82,8 @@
 
                     <div class="d-grid gap-2 mt-5">
                         <input type="submit" value="Login" class="btn btn-lg btn-primary" id="loginButton"/>
-            </div>
+                </div>
+
         </div>
     </div>
     <div class="col-md-3">

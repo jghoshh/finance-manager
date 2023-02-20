@@ -15,6 +15,6 @@ class Expense(models.Model):
         ordering = ['-date']
 
     def __repr__(self):
-        return f"Expense: amt: {self.amount}, date: {self.date}, owner: {self.owner}"
+        return f"Expense: amt: {self.amount}, date: {self.date}, owner: {self.owner}, category: {self.typeOfExpense}"
 
 

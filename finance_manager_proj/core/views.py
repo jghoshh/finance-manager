@@ -5,12 +5,15 @@ from django.urls import reverse
 from django.views.decorators.cache import cache_control
 from django.utils.decorators import method_decorator
 from .models import Expense
-from datetime import datetime
+import datetime
 from django.contrib import messages
 from django.core.paginator import Paginator
 
 # Create your views here.
+
+# global vars.
 categories = ["Groceries", "Eating Out", "Transportation", "Rent", "Utilities", "Entertainment", "Other"]
+dateConvMap = {"1YEAR": 30*12, "6MTHS": 30*6, "3MTHS": 30*3, "L0007": 7}
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def index(request): 
@@ -27,7 +30,7 @@ def index(request):
         "title": "Your Expenses",
         "buttonName": "Add Expenses",
         "page_obj": page_obj,
-        "expenses": expenses
+        "expenses": expenses 
     } )
 
 def redirectToHome(request): 
@@ -113,7 +116,6 @@ class EditExp(View):
         return HttpResponseRedirect(reverse("core:index"))
 
 def deleteExp(request, expenseId): 
-    print(request.META.get('HTTP_REFERER', None))
     if (request.META.get('HTTP_REFERER', None) and request.META['HTTP_REFERER'][-2:-11:-1] == "/pxe-tide"):
         try: 
             expenseToDelete = Expense.objects.get(pk=expenseId, owner=request.user)
@@ -125,3 +127,39 @@ def deleteExp(request, expenseId):
             return HttpResponseRedirect(request.META.get['HTTP_REFERER'])
 
     return HttpResponseRedirect(reverse("core:index"))
+
+# endpoint for summarizing expenses and visualizing them with chart.js
+# returns a json object with keys being the name of each category that the user has spent in 
+# and the total expenditure for each category per user. The data parameter is adjustable 
+# to display expenses as per the user's historical preference. 
+def getExpenseSummary(request, date): 
+    response = {}
+
+    if not (date == "1YEAR" or date == "6MTHS" or date == "3MTHS" or date == "LS7"): 
+         return HttpResponseRedirect(request.META.get['HTTP_REFERER'])
+    
+    today = datetime.datetime.today()
+    toPast = today - datetime.timedelta(days=dateConvMap[date])
+    expenses = Expense.objects.filter(owner=request.user, date__gte=toPast, date__lte=today)
+    print(expenses)
+
+    for category in categories: 
+        print(category)
+        response[category] = 0
+        filteredByCategory = expenses.filter(typeOfExpense=category)
+        print(filteredByCategory)
+        for expense in filteredByCategory: 
+            response[category] += expense.amount
+    
+    return JsonResponse(response)
+
+# this method is actually the view that renders the page with the expense summary.
+def expenseSummary(request, date): 
+    return render(request, 'finance_manager/summary.html', {
+        "title": "Your Expense Summary",
+        "buttonName": "Go To Your Expenses",
+    })
+
+
+
+

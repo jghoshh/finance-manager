@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if messages %}
+<!-- success mssage on the creation of an expense -->
+<div class="alert alert-dismissible alert-success">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    {% for message in messages %}
+    <strong>{{message}}</strong>
+    {% endfor %}
+  </div>
+
+{% endif %}
+
+{% endblock content %}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/summary.js'%}?v=1"></script>
+{% endblock script %}
+
+
