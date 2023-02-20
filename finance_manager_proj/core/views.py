@@ -135,22 +135,20 @@ def deleteExp(request, expenseId):
 def getExpenseSummary(request, date): 
     response = {}
 
-    if not (date == "1YEAR" or date == "6MTHS" or date == "3MTHS" or date == "LS7"): 
+    if not (date == "1YEAR" or date == "6MTHS" or date == "3MTHS" or date == "L0007"): 
          return HttpResponseRedirect(request.META.get['HTTP_REFERER'])
     
     today = datetime.datetime.today()
     toPast = today - datetime.timedelta(days=dateConvMap[date])
     expenses = Expense.objects.filter(owner=request.user, date__gte=toPast, date__lte=today)
-    print(expenses)
 
     for category in categories: 
-        print(category)
         response[category] = 0
         filteredByCategory = expenses.filter(typeOfExpense=category)
-        print(filteredByCategory)
         for expense in filteredByCategory: 
             response[category] += expense.amount
     
+    print(JsonResponse(response))
     return JsonResponse(response)
 
 # this method is actually the view that renders the page with the expense summary.

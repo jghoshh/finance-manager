@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% load static %}
+
 {% if messages %}
 <!-- success mssage on the creation of an expense -->
 <div class="alert alert-dismissible alert-success">
@@ -12,10 +14,14 @@
 
 {% endif %}
 
+<div id="graphHolder" style="max-width: 60vw;">
+<canvas id="summary-chart" style="max-height: 80vh !important;"></canvas>
+</div>
+
 {% endblock content %}
 {% block script %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{% static 'js/summary.js'%}?v=1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
+<script src="{% static 'js/summary.js'%}?v=1" type="module"></script>
 {% endblock script %}
 
 
